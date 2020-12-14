@@ -1,0 +1,29 @@
+$TTL 3600 ; 全局记录超时时间
+$ORIGIN gitee.cc. ; 指定 origin ，下面的 @ 符号可以作为它的别名
+
+; SOA 格式： [domain_name] [TTL] IN SOA [域主服务器或主DNS服务器名] [管理员email] (超时时间信息)
+@  3600  IN  SOA  ns1.gitee.cc.  root.gitee.cc.  (
+    2020072410 ; Serial
+    1H         ; Refresh
+    600        ; Retry
+    7D         ; Expire
+    600        ; Negative Cache TTL
+)
+
+; 配置 DNS 记录，指向 ns1.rainsay.me
+@  3600  IN  NS  ns1.gitee.cc.
+@  3600  IN  NS  ns2.gitee.cc.
+
+; 配置 ns1.rainsay.me 的 A 记录, 指向coredns所在的机器
+ns1      IN  A  10.0.0.53
+         IN  AAAA  2001:db8:42:1::53
+ns2      IN  A  10.0.1.53
+         IN  AAAA  2001:db8:42:2::53
+
+; 配置 www 的 A 记录，指向网站或其他用途的机器
+www      IN  A  10.0.0.1
+         IN  AAAA  2001:db8:42:1:1
+; 配置泛域名，没有准确的三级子域名的域名全部指向此IPV4地址
+*        IN  A  10.0.0.1
+; 配置 blog 的 CNAME 记录指向 www
+blog     IN  CNAME  www

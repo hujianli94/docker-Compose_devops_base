@@ -1,0 +1,4 @@
+- labels:
+    module: sidekiq_default_status
+  targets:
+    - sidekiq_default_status

@@ -1,0 +1,6 @@
+- labels:
+    module: http_2xx
+  targets:
+    - http://es1:9200
+    - http://newsonar:9000
+    - https://ipvb.gitee.io

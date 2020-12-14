@@ -1,0 +1,4 @@
+- labels:
+    module: gitsrv_status
+  targets:
+    - gitsrv_status

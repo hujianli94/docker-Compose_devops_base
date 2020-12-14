@@ -1,0 +1,4 @@
+- labels:
+    module: sidekiq_pull_request_status
+  targets:
+    - sidekiq_pull_request_status

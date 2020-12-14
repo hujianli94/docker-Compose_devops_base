@@ -1,0 +1,4 @@
+- labels:
+    module: apk_sidekiq0_status
+  targets:
+    - apk_sidekiq0_status

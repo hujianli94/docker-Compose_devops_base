@@ -1,0 +1,4 @@
+- labels:
+    module: sidekiq_network_status
+  targets:
+    - sidekiq_network_status

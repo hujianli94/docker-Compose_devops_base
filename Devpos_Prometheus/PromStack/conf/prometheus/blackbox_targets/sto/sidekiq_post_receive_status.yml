@@ -1,0 +1,4 @@
+- labels:
+    module: sidekiq_post_receive_status
+  targets:
+    - sidekiq_post_receive_status

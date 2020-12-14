@@ -1,0 +1,4 @@
+- labels:
+    module: mydoc_io_status
+  targets:
+    - mydoc_io_status

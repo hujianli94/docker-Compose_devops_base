@@ -1,0 +1,47 @@
+modules:
+  http_2xx:
+    prober: http
+    http:
+      method: GET
+      preferred_ip_protocol: ipv4
+      headers:
+        User-Agent: OSC-Mortal
+  http_proxy_2xx:
+    prober: http
+    http:
+      method: GET
+      preferred_ip_protocol: ipv4
+      headers:
+        User-Agent: OSC-Mortal
+      proxy_url: http://117.28.245.92:30443
+  tcp_connect:
+    prober: tcp
+
+  apidoc_sidekiq_status:
+    prober: cmd
+    timeout: 2s
+    cmd:
+      executable: "/bin/bash"
+      cmdline:
+        - "echo $(($(ps -ef | grep \"$(cat /home/git/git-apidoc/tmp/sidekiq.pid)\" | grep -v grep | wc -l)+1))"
+  apk_sidekiq0_status:
+    prober: cmd
+    timeout: 2s
+    cmd:
+      executable: "/bin/bash"
+      cmdline:
+        - "echo $(($(ps -ef | grep \"$(cat /home/git/android_build/tmp/pids/sidekiq_0.pid)\" | grep -v grep | wc -l)+1))"
+  apk_sidekiq1_status:
+    prober: cmd
+    timeout: 2s
+    cmd:
+      executable: "/bin/bash"
+      cmdline:
+        - "echo $(($(ps -ef | grep \"$(cat /home/git/android_build/tmp/pids/sidekiq_1.pid)\" | grep -v grep | wc -l)+1))"
+  mydoc_io_status:
+    prober: cmd
+    timeout: 5s
+    cmd:
+      executable: "/bin/bash"
+      cmdline:
+        - "curl --connect-timeout 3 -sI -w '%{http_code}\\n' https://git.mydoc.io -o /dev/null"

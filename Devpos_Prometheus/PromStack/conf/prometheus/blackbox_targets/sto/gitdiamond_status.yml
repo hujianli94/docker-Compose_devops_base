@@ -1,0 +1,4 @@
+- labels:
+    module: gitdiamond_status
+  targets:
+    - gitdiamond_status

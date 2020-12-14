@@ -1,0 +1,47 @@
+---
+version: '3'
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.14.0
+    hostname: prometheus
+    restart: always
+    ports:
+      - "192.168.2.2:9090:9090"
+    command:
+      - --storage.tsdb.retention=184d
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.console.libraries=/usr/share/prometheus/console_libraries
+      - --web.console.templates=/usr/share/prometheus/consoles
+      - --web.enable-lifecycle
+      - --web.enable-admin-api
+    user: 65534:65534
+    volumes:
+      - /data/PromStack/prometheus/data:/prometheus
+      - /data/PromStack/prometheus/conf:/etc/prometheus
+    depends_on:
+      - consul
+
+  grafana:
+    image: oschina/grafana:v6.5.2
+    hostname: grafana
+    restart: always
+    ports:
+      - "192.168.2.2:30030:3000"
+    volumes:
+      - /data/PromStack/grafana/data:/var/lib/grafana
+      - /data/PromStack/grafana/conf/grafana.ini:/etc/grafana/grafana.ini
+      - /data/PromStack/grafana/conf/ldap.toml:/etc/grafana/ldap.toml
+    depends_on:
+      - prometheus
+
+  consul:
+    image: consul:1.6.2
+    hostname: consul
+    command: agent -server -client=0.0.0.0 -ui -bootstrap-expect 1
+    restart: always
+    ports:
+      - "192.168.2.2:8500:8500"
+    volumes:
+      - /data/PromStack/consul/data:/consul/data

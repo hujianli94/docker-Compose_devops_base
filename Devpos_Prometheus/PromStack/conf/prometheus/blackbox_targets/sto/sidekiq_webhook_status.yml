@@ -1,0 +1,4 @@
+- labels:
+    module: sidekiq_webhook_status
+  targets:
+    - sidekiq_webhook_status

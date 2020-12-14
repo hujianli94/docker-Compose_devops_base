@@ -1,0 +1,4 @@
+- labels:
+    module: sidekiq_contribution_status
+  targets:
+    - sidekiq_contribution_status

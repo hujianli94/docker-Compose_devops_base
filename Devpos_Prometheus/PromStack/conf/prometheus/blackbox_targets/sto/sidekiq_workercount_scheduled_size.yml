@@ -1,0 +1,4 @@
+- labels:
+    module: sidekiq_workercount_scheduled_size
+  targets:
+    - sidekiq_workercount_scheduled_size

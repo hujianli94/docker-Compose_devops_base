@@ -1,0 +1,4 @@
+- labels:
+    module: sidekiq_process_count
+  targets:
+    - sidekiq_process_count

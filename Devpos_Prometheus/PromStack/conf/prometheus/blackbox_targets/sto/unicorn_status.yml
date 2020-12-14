@@ -1,0 +1,4 @@
+- labels:
+    module: unicorn_status
+  targets:
+    - unicorn_status

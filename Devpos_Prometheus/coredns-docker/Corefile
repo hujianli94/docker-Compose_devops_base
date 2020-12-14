@@ -1,0 +1,28 @@
+.:53 {
+    forward . 223.5.5.5 223.6.6.6
+    reload 10s
+    loop
+    log
+    errors
+    cache 30
+
+    hosts /data/hosts {
+        ttl 10
+        reload 10s
+        no_reverse
+        fallthrough
+    }
+}
+
+gitee.cc {
+    forward . 223.5.5.5 223.6.6.6
+    loop
+    log
+    errors
+    cache 30
+
+    auto {
+        directory /data/zones/gitee.cc
+        reload 10s
+    }
+}

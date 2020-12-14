@@ -1,0 +1,138 @@
+modules:
+  sidekiq_default_status:
+    prober: cmd
+    timeout: 2s
+    cmd:
+      scriptMode: true
+      scriptPath: "./check_pid_status.sh"
+      executable: "/bin/bash"
+      cmdline:
+        - "sidekiq_default"
+  sidekiq_local_fetch_status:
+    prober: cmd
+    timeout: 2s
+    cmd:
+      scriptMode: true
+      scriptPath: "./check_pid_status.sh"
+      executable: "/bin/bash"
+      cmdline:
+        - "sidekiq_local_fetch"
+  sidekiq_remote_fetch_status:
+    prober: cmd
+    timeout: 2s
+    cmd:
+      scriptMode: true
+      scriptPath: "./check_pid_status.sh"
+      executable: "/bin/bash"
+      cmdline:
+        - "sidekiq_remote_fetch"
+  sidekiq_post_receive_status:
+    prober: cmd
+    timeout: 2s
+    cmd:
+      scriptMode: true
+      scriptPath: "./check_pid_status.sh"
+      executable: "/bin/bash"
+      cmdline:
+        - "sidekiq_post_receive"
+  sidekiq_pull_request_status:
+    prober: cmd
+    timeout: 2s
+    cmd:
+      scriptMode: true
+      scriptPath: "./check_pid_status.sh"
+      executable: "/bin/bash"
+      cmdline:
+        - "sidekiq_pull_request"
+  sidekiq_contribution_status:
+    prober: cmd
+    timeout: 2s
+    cmd:
+      scriptMode: true
+      scriptPath: "./check_pid_status.sh"
+      executable: "/bin/bash"
+      cmdline:
+        - "sidekiq_contribution"
+  sidekiq_network_status:
+    prober: cmd
+    timeout: 2s
+    cmd:
+      scriptMode: true
+      scriptPath: "./check_pid_status.sh"
+      executable: "/bin/bash"
+      cmdline:
+        - "sidekiq_network"
+  sidekiq_webhook_status:
+    prober: cmd
+    timeout: 2s
+    cmd:
+      scriptMode: true
+      scriptPath: "./check_pid_status.sh"
+      executable: "/bin/bash"
+      cmdline:
+        - "sidekiq_webhook"
+  unicorn_status:
+    prober: cmd
+    timeout: 2s
+    cmd:
+      scriptMode: true
+      scriptPath: "./check_pid_status.sh"
+      executable: "/bin/bash"
+      cmdline:
+        - "unicorn"
+
+  gitsrv_status:
+    prober: cmd
+    timeout: 2s
+    cmd:
+      executable: "/bin/bash"
+      cmdline:
+        - "ps -ef | grep git-srv | grep -v grep | grep -E \"git-srv: worker process|git-srv -D\" | wc -l"
+
+  gitdiamond_status:
+    prober: cmd
+    timeout: 2s
+    cmd:
+      executable: "/bin/bash"
+      cmdline:
+        - "ps -ef | grep git-diamond | grep -v grep | grep -E \"git-diamond: worker process|git-diamond -D\" | wc -l"
+
+  sidekiq_process_count:
+    prober: cmd
+    timeout: 2s
+    cmd:
+      executable: "/bin/bash"
+      cmdline:
+        - "ps -ef|grep \"sidekiq 4.2.10 gitee\"|grep -v grep|wc -l"
+
+  sidekiq_workercount_workers_size:
+    prober: cmd
+    timeout: 2s
+    cmd:
+      executable: "/bin/bash"
+      cmdline:
+        - "/usr/local/bin/ruby ./get_worker.rb | grep workers_size | awk \'{print $2}\'"
+
+  sidekiq_workercount_enqueued:
+    prober: cmd
+    timeout: 2s
+    cmd:
+      executable: "/bin/bash"
+      cmdline:
+        - "/usr/local/bin/ruby ./get_worker.rb | grep enqueued | awk \'{print $2}\'"
+
+  sidekiq_workercount_retry_size:
+    prober: cmd
+    timeout: 2s
+    cmd:
+      executable: "/bin/bash"
+      cmdline:
+        - "/usr/local/bin/ruby ./get_worker.rb | grep retry_size | awk \'{print $2}\'"
+
+  sidekiq_workercount_scheduled_size:
+    prober: cmd
+    timeout: 2s
+    cmd:
+      executable: "/bin/bash"
+      cmdline:
+        - "/usr/local/bin/ruby ./get_worker.rb | grep scheduled_size | awk \'{print $2}\'"

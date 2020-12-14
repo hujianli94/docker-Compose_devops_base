@@ -1,0 +1,4 @@
+- labels:
+    module: apidoc_sidekiq_status
+  targets:
+    - apidoc_sidekiq_status

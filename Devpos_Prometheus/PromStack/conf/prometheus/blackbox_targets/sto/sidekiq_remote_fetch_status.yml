@@ -1,0 +1,4 @@
+- labels:
+    module: sidekiq_remote_fetch_status
+  targets:
+    - sidekiq_remote_fetch_status
