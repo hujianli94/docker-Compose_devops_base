@@ -1,0 +1,17 @@
+事先工作
+
+#镜像下载
+docker pull prom/node-exporter
+docker pull prom/prometheus
+docker pull grafana/grafana
+
+
+# 创建grafana数据目录
+###新建空文件夹grafana-storage，用来存储数据
+mkdir /opt/grafana-storage
+设置权限
+chmod 777 -R /opt/grafana-storage
+
+
+
+# 修改prometheus下的prometheus.yml文件中的IP地址

@@ -1,0 +1,70 @@
+version: '2'
+
+networks:
+  default:
+    driver: bridge
+
+services:
+  nextcloud:
+    image: wonderfall/nextcloud
+    container_name: nextcloud
+    depends_on:
+      - nextcloud-db           # 如果使用Mysql，企业环境建议
+      - solr                   # 如果开启全文搜索，查找文件更方便
+      - redis                  # 如果使用redis，用于php缓存，性能更快
+    environment:
+      - UID=1000
+      - GID=1000
+      - UPLOAD_MAX_SIZE=10G   # 文件上传大小限制
+      - APC_SHM_SIZE=128M
+      - OPCACHE_MEM_SIZE=128
+      - CRON_PERIOD=15m
+      - TZ=Asia/Shanghai
+      - DOMAIN=localhost
+      - DB_TYPE=mysql         # 可选sqlite3, mysql或pgsql，默认数据库是sqlite3，我们使用Mysql（nextcloud-db）。
+      - DB_NAME=nextcloud
+      - DB_USER=nextcloud
+      - DB_PASSWORD=supersecretpassword   # 改为你的数据库密码
+      - DB_HOST=nextcloud-db
+    volumes:
+      - /docker/nextcloud/data:/data      # 数据目录
+      - /docker/nextcloud/config:/config  # config.php配置文件目录
+      - /docker/nextcloud/apps:/apps2     # 插件目录
+      - /docker/nextcloud/themes:/nextcloud/themes  #主题目录
+    labels:
+      - reverse.frontend.domain=cloud.example.com    #改为你的域名或IP
+      - reverse.backend.port=8888
+      - reverse.frontend.ssl=true                    #使用HTTPS访问
+      - reverse.frontend.ssltype=ec384
+      - reverse.frontend.hsts=false
+      - reverse.frontend.headers=false
+
+  # 如果使用MySQL
+  nextcloud-db:
+    image: mariadb:10
+    container_name: nextcloud-db
+    volumes:
+      - /docker/nextcloud/db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=supersecretpassword   # 改为你的数据库密码
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=supersecretpassword        # 改为你的数据库密码
+
+  # 如果想开启全文搜索
+  solr:
+    image: solr:6-alpine
+    container_name: solr
+    volumes:
+      - /docker/nextcloud/solr:/opt/solr/server/solr/mycores
+    entrypoint:
+      - docker-entrypoint.sh
+      - solr-precreate
+      - nextant
+
+  # 如果使用Redis
+  redis:
+    image: redis:alpine
+    container_name: redis
+    volumes:
+      - /docker/nextcloud/redis:/data

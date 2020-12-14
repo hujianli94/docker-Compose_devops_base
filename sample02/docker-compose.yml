@@ -1,0 +1,50 @@
+version: "3"
+services:
+  db:
+    image: postgres
+    volumes:
+      - data: /var/lib/postgresql/data
+  webapp:
+    image: webapp
+    volumes:                        #挂载webapp_volumn存储卷
+      - webapp_volumn: /opt/app/static
+    ports:                          #指定端口映射
+      - "3000/udp"
+      - "8000:8000"
+    networks:         #加入webapp_network网络
+      - webapp_network
+    configs:          #挂载webapp_config外置配置
+      - webapp_config
+    secrets:            # 挂载webapp_secret密文
+      - webapp_secret
+    deploy:
+      replicase: 4      #启动4个副本
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:   #出错退出时自动重启，最多3次，间隔3s
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      resources:        #最大和最小的资源使用量
+        limits:
+          cpus: '0.1'
+          memory: 300M
+      reservations:
+        cpus: '0.01'
+        memory: 100M
+volumes:              # 名称是data的存储卷描述
+  data:
+    driver: local
+    external: false
+
+configs:
+  webapp_config:    #名称是webapp_config的外置配置描述
+  file: ./webapp_config
+  external: false     #external属性，表示外置配置的声明周期由Compose统一管理
+
+networks:
+  webapp_network:     #名称是webapp_network的网络描述
+    driver: bridge    #网络类型可以是bridge或overlat，但overlay类型的网络智能用于集群模式
+#    external: false  #false表示逐个网络是由Compose管理的，会自动创建和删除，若要使用预先创建的网络，并自行管理网络声明周期，可以将该属性设置为true。
+

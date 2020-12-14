@@ -1,0 +1,75 @@
+version: '2'
+
+networks:
+  default:
+    driver: bridge
+
+services:
+  nextcloud:
+    image: wonderfall/nextcloud
+    container_name: nextcloud
+    depends_on:
+      - nextcloud-db
+      - solr
+      - redis
+    ports:
+      - "8888:8888"
+    environment:
+      - UID=1000
+      - GID=1000
+      - UPLOAD_MAX_SIZE=10G
+      - APC_SHM_SIZE=128M
+      - OPCACHE_MEM_SIZE=128
+      - CRON_PERIOD=15m
+      - TZ=Asia/Shanghai
+      - DOMAIN=localhost
+      - DB_TYPE=mysql
+      - DB_NAME=nextcloud
+      - DB_USER=nextcloud
+      - DB_PASSWORD=supersecretpassword
+      - DB_HOST=nextcloud-db
+    volumes:
+      - /docker/nextcloud/data:/data
+      - /docker/nextcloud/config:/config
+      - /docker/nextcloud/apps:/apps2
+      - /docker/nextcloud/themes:/nextcloud/themes
+    labels:
+      - reverse.frontend.domain=127.0.0.1
+      - reverse.backend.port=8888
+      - reverse.frontend.ssl=true
+      - reverse.frontend.ssltype=ec384
+      - reverse.frontend.hsts=false
+      - reverse.frontend.headers=false
+
+  nextcloud-db:
+    image: mariadb:10
+    container_name: nextcloud-db
+    volumes:
+      - /docker/nextcloud/db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=supersecretpassword
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=supersecretpassword
+
+  solr:
+    image: solr:6-alpine
+    container_name: solr
+    volumes:
+      - /docker/nextcloud/solr:/opt/solr/server/solr/mycores
+    ports:
+      - "8983:8983"
+    entrypoint:
+      - docker-entrypoint.sh
+      - solr-precreate
+      - nextant
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    volumes:
+      - /docker/nextcloud/redis:/data
+    ports:
+      - "6379:6379"

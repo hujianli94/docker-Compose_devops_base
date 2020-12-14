@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    environment:
+      - JAVA_OPTS=-Duser.timezone=Asia/Shanghai
+    volumes:
+      - /data/atompi-ci/jenkins:/var/jenkins_home
+      - /data/atompi-ci/nfs:/var/jenkins_home/nfs
+    ports:
+      - 8080:8080
+  nginx:
+    image: nginx:1.16.1
+    ports:
+      - 80:80
+    volumes:
+      - /data/atompi-ci/nginx/conf.d:/etc/nginx/conf.d
+      - /data/atompi-ci/nginx/logs:/var/log/nginx
+      - /data/atompi-ci/nginx/ssl:/etc/nginx/ssl
+  docker:
+    image: docker:19.03.12-dind
+    privileged: true
+    environment:
+      - DOCKER_TLS_CERTDIR=
+    volumes:
+      - /data/atompi-ci/docker/data:/var/lib/docker
+      - /data/atompi-ci/docker/etc:/etc/docker
