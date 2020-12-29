@@ -2,7 +2,7 @@
 /shelf/
 /workspace.xml
 # Datasource local storage ignored files
-/../../../../../../:\GitHub\Docker知识整理\Docker-compose\docker-compose_base_devops\.idea/dataSources/
+/../../../../../../:\GitHub\Project_Docker\Docker-compose\docker-compose_base_devops\.idea/dataSources/
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/

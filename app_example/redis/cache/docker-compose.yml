@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  redis-cache:
+    image: 'hub.gitee.cc/library/redis:5.0.9'
+    ports:
+      - '192.168.1.60:6380:6379'
+    volumes:
+      - '/data/redis/cache/conf/6379.conf:/6379.conf'
+    command: /6379.conf

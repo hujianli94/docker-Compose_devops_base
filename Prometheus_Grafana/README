@@ -15,3 +15,4 @@ chmod 777 -R /opt/grafana-storage
 
 
 # 修改prometheus下的prometheus.yml文件中的IP地址
+

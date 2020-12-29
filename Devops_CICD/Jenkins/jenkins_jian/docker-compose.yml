@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    environment:
+      - JAVA_OPTS=-Duser.timezone=Asia/Shanghai
+    volumes:
+      - /data/jenkins_jian:/var/jenkins_home
+      - /data/nfs:/var/jenkins_home/nfs
+    ports:
+      - 8080:8080
+#  nginx:
+#    image: nginx:1.16.1
+#    ports:
+#      - 8080:80
+#    volumes:
+#      - /data/nginx/conf.d:/etc/nginx/conf.d
+#      - /data/nginx/logs:/var/log/nginx
+#      - /data/nginx/ssl:/etc/nginx/ssl
+  docker:
+    image: docker:19.03.11-dind
+    privileged: true
+    environment:
+      - DOCKER_TLS_CERTDIR=
+    volumes:
+      - /data/dockerindocker/data:/var/lib/docker
+      - /data/dockerindocker/etc:/etc/docker

@@ -1,9 +1,9 @@
 version: '3.1'
 services:
   jenkins:
-    image: registry.cn-hangzhou.aliyuncs.com/devops_hu/jenkins:1.0.2
+    image: registry.cn-hangzhou.aliyuncs.com/devops_hu/jenkins_jian:1.0.2
     volumes:
-      - /data/jenkins/:/var/jenkins_home
+      - /data/jenkins_jian/:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
       - /usr/lib/x86_64-linux-gnu/libltdl.so.7:/usr/lib/x86_64-linux-gnu/libltdl.so.7
@@ -18,6 +18,6 @@ services:
 
     user: root
     restart: always
-    container_name: jenkins
+    container_name: jenkins_jian
     environment:
       JAVA_OPTS: '-Djava.util.logging.config.file=/var/jenkins_home/log.properties'

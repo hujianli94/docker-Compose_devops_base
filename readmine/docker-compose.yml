@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  server-redmine:
+    image: redmine:latest
+    links:
+      - server-mysql:server-mysql
+    ports:
+      - '8087:3000'
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass
+    volumes:
+      - '/root/docker/redmine/redmine_dir:/usr/src/redmine/files'
+
+  server-mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass
+    volumes:
+      - '/root/docker/redmine/mysql_dir:/var/lib/mysql'

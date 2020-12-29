@@ -6,7 +6,7 @@ services:
     environment:
       - JAVA_OPTS=-Duser.timezone=Asia/Shanghai
     volumes:
-      - /data/atompi-ci/jenkins:/var/jenkins_home
+      - /data/atompi-ci/jenkins_jian:/var/jenkins_home
       - /data/atompi-ci/nfs:/var/jenkins_home/nfs
     ports:
       - 8080:8080

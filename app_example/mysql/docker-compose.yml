@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: hub.gitee.cc/library/mysql:5.6.48
+    restart: always
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      - MYSQL_ROOT_PASSWORD=oschina123
+      - MYSQL_DATABASE=gitlabhq_production
+      - MYSQL_USER=giteeci
+      - MYSQL_PASSWORD=123456
+      - MYSQL_HOST=%
+    user: 1000:1000
+    ports:
+      - 3306:3306
+    volumes:
+      - /data/mysql:/var/lib/mysql

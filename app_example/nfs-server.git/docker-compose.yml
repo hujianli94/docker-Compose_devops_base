@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  nfs-server:
+    image: 'hub.gitee.cc/library/nfs-server:v20200611-alpine'
+    ports:
+      - '192.168.1.60:2049:2049'
+    privileged: true
+    volumes:
+      - '/data/nfs:/nfsshare'
+    environment:
+      - SHARED_DIRECTORY=/nfsshare

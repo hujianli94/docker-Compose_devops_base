@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  fdfs:
+    network_mode: host
+    image: 'hub.gitee.cc/gitee_ci/fdfs:5.12'
+    volumes:
+      - '/data/fdfs/tracker/data:/data/fastdfs/tracker/data'
+      - '/data/fdfs/storage/data:/data/fastdfs/storage/data'
+      - '/data/fdfs/nginx/conf/nginx.conf:/usr/local/nginx-fdfs/conf/nginx.conf'
